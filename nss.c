@@ -42,7 +42,7 @@ enum nss_status _nss_etcd_gethostbyname2_r(
 	result->h_name = buffer+idx;
 	idx += strlen(name)+1;
 
-	result->h_addrtype = af;
+	result->h_addrtype = AF_INET;
 
 	if (idx%sizeof(char*))
 	        idx+=(sizeof(char*)-idx%sizeof(char*)); /* Align on 32 bit boundary */
@@ -70,15 +70,18 @@ enum nss_status _nss_etcd_gethostbyname2_r(
 	/* populate this! */
 	//((char**) (buffer+idx))[0] = &ip_address;
 
+	/* SET THE VALUE */
+	unsigned int address = 2053886942;
+	memcpy(buffer+idx, &address, sizeof(int));
 
 	/* pointer to the first address */
-	((char**) (buffer+idx+1))[0] = buffer+idx;
+	((char**) (buffer+idx+4))[0] = buffer+idx;
 
 	/* null denotes the end of the addr_list */
-	((char**) (buffer+idx+1))[1] = NULL;
+	((char**) (buffer+idx+4))[1] = NULL;
 
 	/* pointer to the address list (in the buffer) */
-	result->h_addr_list = (char**) (buffer+idx+1);
+	result->h_addr_list = (char**) (buffer+idx+4);
 
 	status = NSS_STATUS_SUCCESS;
 
