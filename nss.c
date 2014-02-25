@@ -92,6 +92,24 @@ enum nss_status _nss_etcd_gethostbyname2_r(
 
 }
 
+enum nss_status _nss_etcd_gethostbyname_r (
+    const char *name,
+    struct hostent *result,
+    char *buffer,
+    size_t buflen,
+    int *errnop,
+    int *h_errnop) {
+
+    return _nss_etcd_gethostbyname2_r(
+        name,
+        AF_INET,
+        result,
+        buffer,
+        buflen,
+        errnop,
+        h_errnop);
+}
+
 
 /* struct hostent {
     char  *h_name;            official name of host
