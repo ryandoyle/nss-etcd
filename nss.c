@@ -71,8 +71,8 @@ enum nss_status _nss_etcd_gethostbyname2_r(
 	//((char**) (buffer+idx))[0] = &ip_address;
 
 	/* SET THE VALUE */
-	unsigned int address = 2053886942;
-	memcpy(buffer+idx, &address, sizeof(int));
+	uint32_t address = htonl(16909060);;
+	memcpy(buffer+idx, &address, sizeof(uint32_t));
 
 	/* pointer to the first address */
 	((char**) (buffer+idx+4))[0] = buffer+idx;
