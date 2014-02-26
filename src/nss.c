@@ -47,31 +47,9 @@ enum nss_status _nss_etcd_gethostbyname2_r(
 	if (idx%sizeof(char*))
 	        idx+=(sizeof(char*)-idx%sizeof(char*)); /* Align on 32 bit boundary */
 
-	/* copy the ip address into the buffer */
-
-	//memcpy(buffer+idx+1, NULL, 1);
-
-	/* Address array */
-	/*    for (i = 0; i < u.count; i++)
-	        ((char**) (buffer+idx))[i] = buffer+astart+address_length*i;
-	    ((char**) (buffer+idx))[i] = NULL;
-	*/
-
-	//memcpy(buffer+idx, (int*) 2053886942, sizeof(uint32_t));
-
-	/* put the address into the buffer */
-	//((char**) (buffer+idx))[0] = 2053886942;
-	//int *address_1 = (buffer+idx);
-	//idx += sizeof(uint32_t);
-
-	//uint32_t *ip_address = 2053886942;
-
-
-	/* populate this! */
-	//((char**) (buffer+idx))[0] = &ip_address;
 
 	/* SET THE VALUE */
-	uint32_t address = htonl(16909060);;
+	uint32_t address = htonl(16909060);
 	memcpy(buffer+idx, &address, sizeof(uint32_t));
 
 	/* pointer to the first address */
