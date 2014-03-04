@@ -8,6 +8,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "etcd.h"
+
 enum nss_status _nss_etcd_gethostbyname2_r(
     const char *name,
     int af,
@@ -19,6 +21,13 @@ enum nss_status _nss_etcd_gethostbyname2_r(
 
 	enum nss_status status = NSS_STATUS_UNAVAIL;
 	size_t idx = sizeof(char*);
+
+	// ME STUFFING AROUND - why is it adding the extra space ?!?!?!
+	uint32_t address;
+	address = etcd_ip_address(name);
+	// ME STUFFING AROUND
+
+
 
 	/* stub failure */
 	if(0) {
@@ -49,7 +58,7 @@ enum nss_status _nss_etcd_gethostbyname2_r(
 
 
 	/* SET THE VALUE */
-	uint32_t address = htonl(16909060);
+	//uint32_t address = htonl(16909060);
 	memcpy(buffer+idx, &address, sizeof(uint32_t));
 
 	/* pointer to the first address */

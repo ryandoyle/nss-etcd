@@ -1,0 +1,8 @@
+- clone() call when using curl?
+- remove fprints from etcd-api
+- when library is used as .so, it's adding a space into the name
+- remove curl_global_init() in etcd-api 
+
+obvious
+- error handling
+- make sure we are free()ing things that need to be freed
