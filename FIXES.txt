@@ -1,7 +1,14 @@
 - clone() call when using curl?
 - remove fprints from etcd-api
-- when library is used as .so, it's adding a space into the name
+- FIXED: when library is used as .so, it's adding a space into the name
 - remove curl_global_init() in etcd-api 
+- deal with the function being called with IPv6 (./showip database.primary)
+- curl global init?
+- thread safety?
+- recursive lookups (if curl is using a hostname)
+- ordering in nssswitch.conf (before or after DNS)
+- external config file
+- proper NSS_STATUS_ return codes
 
 obvious
 - error handling
