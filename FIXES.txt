@@ -9,7 +9,13 @@
 - ordering in nssswitch.conf (before or after DNS)
 - external config file
 - proper NSS_STATUS_ return codes
+- stress test to check for memory leaks
+- valgrind over it
 
 obvious
 - error handling
 - make sure we are free()ing things that need to be freed
+
+building:
+gcc -shared -fPIC -o0 -g  nss-etcd.c etcd-api.c -o libnss_etcd.so.2 -lcurl -lyajl
+sudo cp libnss_etcd.so.2 /lib/x86_64-linux-gnu/libnss_etcd.so.2
