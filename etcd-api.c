@@ -85,7 +85,7 @@ etcd_open (etcd_server *server_list)
         _etcd_session   *session;
 
         if (!g_inited) {
-                curl_global_init(CURL_GLOBAL_ALL);
+                //curl_global_init(CURL_GLOBAL_ALL);
                 g_inited = 1;
         }
 
