@@ -1,14 +1,11 @@
 #include <unistd.h>
-#include <errno.h>
 #include <string.h>
-#include <assert.h>
 #include <netdb.h>
-#include <sys/socket.h>
 #include <nss.h>
-#include <stdio.h>
 #include <stdlib.h>
 #include <arpa/inet.h>
-#include "etcd-api.h"
+
+#include "etcd-api/etcd-api2.h"
 #include "nss-etcd.h"
 
 enum nss_status _nss_etcd_gethostbyname2_r(
@@ -21,7 +18,7 @@ enum nss_status _nss_etcd_gethostbyname2_r(
     int *h_errnop) {
 
 	enum nss_status status;
-	size_t idx = sizeof(char*);
+	size_t idx;
 	uint32_t address;
 
 	/* We could get back here if curl is trying to lookup the host it needs to
@@ -76,7 +73,6 @@ enum nss_status _nss_etcd_gethostbyname2_r(
 	result->h_addr_list = (char**) (buffer+idx+4);
 
 	return status;
-
 }
 
 enum nss_status _nss_etcd_gethostbyname_r (
@@ -97,7 +93,7 @@ enum nss_status _nss_etcd_gethostbyname_r (
         h_errnop);
 }
 
-char *nss_etcd_key_from_name(const char *name){
+static char *nss_etcd_key_from_name(const char *name){
 	int i;
 
 	if (name == NULL)
@@ -115,6 +111,7 @@ char *nss_etcd_key_from_name(const char *name){
 }
 
 enum nss_status nss_etcd_ip_address(const char *name, uint32_t *ip_address){
+
 	char *key;
 	char *value;
 	char *servers = "localhost";
@@ -154,8 +151,12 @@ enum nss_status nss_etcd_ip_address(const char *name, uint32_t *ip_address){
 
 	cleanup:
 		free(key);
-		free(value);
-		free(etcd_session);
+        if(value != NULL) {
+            free(value);
+        }
+        if(etcd_session != NULL) {
+            etcd_close_str(etcd_session);
+        }
 		return return_code;
 
 }
