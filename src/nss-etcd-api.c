@@ -1,6 +1,7 @@
 #include <arpa/inet.h>
 #include <stdlib.h>
 #include <string.h>
+#include <nss.h>
 
 #include "etcd-api/etcd-api2.h"
 
