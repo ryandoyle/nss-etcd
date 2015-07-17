@@ -44,14 +44,6 @@ typedef struct {
         etcd_server     *servers;
 } _etcd_session;
 
-typedef struct {
-        char            *key;
-        char            *value;
-        int             *index_in;      /* pointer so NULL can be special */
-        int             index_out;      /* NULL would be meaningless */
-} etcd_watch_t;
-
-typedef size_t curl_callback_t (void *, size_t, size_t, void *);
 
 const char      *value_path[]   = { "node", "value", NULL };
 const char      *nodes_path[]   = { "node", "nodes", NULL };
