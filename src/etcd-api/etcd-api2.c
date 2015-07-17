@@ -33,11 +33,11 @@
 #include <stdlib.h>
 #include <string.h>
 #include <yajl/yajl_tree.h>
-#include "etcd-api.h"
+#include "etcd-api2.h"
 #include "ghttp/ghttp.h"
 
 
-#define DEFAULT_ETCD_PORT       4001
+#define DEFAULT_ETCD_PORT       2379
 #define SL_DELIM                "\n\r\t ,;"
 
 typedef struct {
@@ -227,14 +227,14 @@ parse_get_response(char *body)
 }
 
 
-static etcd_result
-etcd_get_one (_etcd_session *session, const char *key, etcd_server *srv, const char *prefix, char *stream_to)
+static char *
+etcd_get_one (_etcd_session *session, const char *key, etcd_server *srv, const char *prefix)
 {
         char            *url;
-        etcd_result     res             = ETCD_WTF;
         void            *err_label      = &&done;
         ghttp_request *request;
         char *body;
+        char *stream_to = NULL;
 
         if (asprintf(&url,"http://%s:%u/v2/%s%s",
                      srv->host,srv->port,prefix,key) < 0) {
@@ -266,14 +266,12 @@ etcd_get_one (_etcd_session *session, const char *key, etcd_server *srv, const c
             goto *err_label;
         }
 
-        res = ETCD_OK;
-
 cleanup_ghttp:
         ghttp_request_destroy(request);
 free_url:
         free(url);
 done:
-        return res;
+        return stream_to;
 }
 
 
@@ -282,16 +280,14 @@ etcd_get (etcd_session session_as_void, char *key)
 {
         _etcd_session   *session   = session_as_void;
         etcd_server     *srv;
-        etcd_result     res;
-        char            *value;
+        char            *res;
 
         for (srv = session->servers; srv->host; ++srv) {
-                res = etcd_get_one(session,key,srv, (const char *)"keys/",value);
-                if ((res == ETCD_OK) && value) {
-                        return value;
+                res = etcd_get_one(session,key,srv, (const char *)"keys/");
+                if (res) {
+                        return res;
                 }
         }
-
         return NULL;
 }
 

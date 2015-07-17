@@ -3,7 +3,7 @@ set(SOVERSION 3)
 
 project(nss-etcd)
 
-set(CMAKE_BUILD_TYPE Release)
+set(CMAKE_BUILD_TYPE Debug)
 
 include_directories(
     PROJECT_SOURCE_DIR
@@ -13,17 +13,23 @@ include_directories(
 
 add_library(nss_etcd SHARED src/nss-etcd.c)
 set_target_properties(nss_etcd PROPERTIES SOVERSION 2)
-target_link_libraries(nss_etcd etcd-api)
+target_link_libraries(nss_etcd etcd-nss-api)
 
-#add_executable(etc-test test/etd-test.c)
-#target_link_libraries(etc-test etcd-api)
+add_executable(etc-test test/etd-test.c)
+target_link_libraries(etc-test etcd-nss-api)
 
 # Libraries
+add_library(etcd-nss-api STATIC
+    src/nss-etcd-api.c
+)
+set_target_properties(etcd-nss-api PROPERTIES POSITION_INDEPENDENT_CODE TRUE)
+target_link_libraries(etcd-nss-api etcd-api)
+
 add_library(etcd-api STATIC
     src/etcd-api/etcd-api2.c
 )
 set_target_properties(etcd-api PROPERTIES POSITION_INDEPENDENT_CODE TRUE)
-target_link_libraries(etcd-api ghttp)
+target_link_libraries(etcd-api ghttp yajl)
 
 add_library(ghttp STATIC
     src/ghttp/ghttp.c
