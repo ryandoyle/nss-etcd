@@ -223,22 +223,19 @@ static char *
 etcd_get_one (_etcd_session *session, const char *key, etcd_server *srv, const char *prefix)
 {
         char            *url;
-        void            *err_label      = &&done;
         ghttp_request *request;
         char *body;
         char *stream_to = NULL;
 
         if (asprintf(&url,"http://%s:%u/v2/%s%s",
                      srv->host,srv->port,prefix,key) < 0) {
-                goto *err_label;
+                goto done;
         }
-        err_label = &&free_url;
 
         request = ghttp_request_new();
         if (!request) {
-                goto *err_label;
+                goto free_url;
         }
-        err_label = &&cleanup_ghttp;
 
         ghttp_set_uri(request, url);
         ghttp_set_header(request, http_hdr_Connection, "close");
@@ -250,12 +247,12 @@ etcd_get_one (_etcd_session *session, const char *key, etcd_server *srv, const c
             #if defined(DEBUG)
                 fprintf(stderr, ghttp_get_error(request));
             #endif
-            goto *err_label;
+            goto cleanup_ghttp;
         }
 
         stream_to = parse_get_response(body);
         if(!stream_to) {
-            goto *err_label;
+            goto cleanup_ghttp;
         }
 
 cleanup_ghttp:
