@@ -19,7 +19,7 @@ static char *nss_etcd_key_from_name(const char *name){
     new_name = malloc(name_length);
     for (i=0; i < name_length; i++){
         /* replace '.' with '/' */
-        new_name[i] = (name[i] == '.') ? '/' : name[i];
+        new_name[i] = (char) ((name[i] == '.') ? '/' : name[i]);
     }
     return new_name;
 }
@@ -27,9 +27,9 @@ static char *nss_etcd_key_from_name(const char *name){
 enum nss_status nss_etcd_ip_address(const char *name, uint32_t *ip_address){
 
     char *key;
-    char *value;
+    char *value = NULL;
     char *servers = "localhost";
-    etcd_session    etcd_session;
+    etcd_session    etcd_session = NULL;
     enum nss_status return_code;
 
     // covert the domain to a key
