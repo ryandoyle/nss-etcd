@@ -20,7 +20,7 @@ enum nss_status _nss_etcd_gethostbyname2_r(
 	size_t idx;
 	uint32_t address;
 
-	/* We could get back here if curl is trying to lookup the host it needs to
+	/* We could get back here if ghttp is trying to lookup the host it needs to
 	 * connect to (part of etcd-api). Get out of here so we don't end up in an
 	 * endless loop
 	 */
