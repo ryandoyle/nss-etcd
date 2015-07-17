@@ -1,5 +1,4 @@
 cmake_minimum_required(VERSION 2.8)
-set(SOVERSION 3)
 
 project(nss-etcd)
 
@@ -14,6 +13,7 @@ include_directories(
 add_library(nss_etcd SHARED src/nss-etcd.c)
 set_target_properties(nss_etcd PROPERTIES SOVERSION 2)
 target_link_libraries(nss_etcd etcd-nss-api)
+install(TARGETS nss_etcd DESTINATION lib)
 
 add_executable(etc-test test/etd-test.c)
 target_link_libraries(etc-test etcd-nss-api)
