@@ -6,7 +6,6 @@ PING database.primary (10.0.0.20) 56(84) bytes of data.
 64 bytes from 10.0.0.20: icmp_seq=1 ttl=64 time=0.320 ms
 ```
 #Getting started
----
 ### Prerequisites
 CMake, libyajl and a C compiler are required to build and install `nss-etcd`
 ```shell
@@ -40,7 +39,6 @@ $ getent hosts database.primary
 
 
 # Issues
----
 ### Minimal tolerance for bugs
 Bugs in `nss-etcd` have an impact on *all* processes that do name resolution. I would highly suggest that `nss-etcd` is not run in production environments.
 ### Caching
