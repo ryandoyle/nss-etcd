@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 2.8)
 
-project(nss-etcd)
+project(nss-etcd C)
 
 set(CMAKE_BUILD_TYPE Debug)
 
