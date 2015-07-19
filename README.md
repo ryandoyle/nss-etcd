@@ -11,7 +11,7 @@ CMake, libyajl and a C compiler are required to build and install `nss-etcd`
 ```shell
 apt-get install cmake libyajl-dev gcc
 ```
-*Currently etcd is also required to be running on localhost.*
+**Currently etcd is also required to be running on localhost.**
 ### Building and installing nss-etcd
 ```shell
 git clone https://github.com/ryandoyle/nss-etcd.git
@@ -20,7 +20,7 @@ cmake -DCMAKE_INSTALL_PREFIX:PATH=/usr .
 make install
 ```
 ### Configuring
-`nss-etcd` has to be enabled in `/etc/nsswitch.conf` to start to be used for host resolution. Add *etcd* in the hosts section of this file.
+`nss-etcd` has to be enabled in `/etc/nsswitch.conf` to start to be used for host resolution. Add `etcd` in the hosts section of this file.
 ```file:/etc/nsswitch.conf
 hosts:          files myhostname etcd dns
 ```
@@ -40,9 +40,9 @@ $ getent hosts database.primary
 
 # Issues
 ### Minimal tolerance for bugs
-Bugs in `nss-etcd` have an impact on *all* processes that do name resolution. I would highly suggest that `nss-etcd` is not run in production environments.
+Bugs in `nss-etcd` have an impact on **all** processes that do name resolution. I would highly suggest that `nss-etcd` is not run in production environments.
 ### Caching
-`nss-etcd` does not cache (on purpose). It is possible that your application *does* cache resolution though.
+`nss-etcd` does not cache (on purpose). It is possible that your application **does** cache resolution though.
 ### Out-of-band resolution
 Most applications will use `glibc` and `gethostbyname` but it's possible some directly query DNS by reading `/etc/resolv.conf`  and performing their own resolution. This would bypass `nss` and therefore `nss-etcd`.
 
